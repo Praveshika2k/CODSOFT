@@ -1,0 +1,48 @@
+//task 2
+
+import java.util.*;
+public class Main{
+    public static void main(String args[]){
+        Scanner in=new Scanner(System.in);
+        System.out.print("enter the number of subjects:");
+        int n=in.nextInt();
+        int arr[]=new int[n];
+        System.out.println("enter the marks of "+n+" subjects: ");
+        for (int i=0;i<n;i++){
+            
+            arr[i]=in.nextInt();
+            if (arr[i]>100 || arr[i]<0){
+                System.out.println("invalid");
+            }
+        }
+        int sum=0;
+        for (int i=0;i<n;i++){
+            sum+=arr[i];
+        }
+        System.out.println("Total marks: "+sum);
+        int avgper;
+        avgper=(sum/n);
+        System.out.println("Average Percentage:"+avgper);
+        if (avgper>90 && avgper<=100){
+            System.out.println("Grade S!");
+        }
+        else if (avgper>80 && avgper<=90){
+            System.out.println("Grade A!");
+        }
+        else if (avgper>70 && avgper<=80){
+            System.out.println("Grade B.");
+        }
+        else if (avgper>60 && avgper<=70){
+            System.out.println("Grade C");
+        }
+        else if (avgper>50 && avgper<=60){
+            System.out.println("Grade D");
+        }
+        else if (avgper>40 && avgper<=50){
+            System.out.println("Grade E");
+        }
+        else{
+            System.out.println("Grade F");
+        }    
+    }
+}
