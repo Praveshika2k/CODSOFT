@@ -1,0 +1,57 @@
+//task 1
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("------NUMBER GAME------");
+        System.out.println("------Guess the right number------");
+        Scanner in = new Scanner(System.in);
+        Random random = new Random();
+        System.out.println("------Note that the random number generated is different in each round------");
+        System.out.print("Enter the number of rounds you want to play (Note: Each round has 3 attempts): ");
+        int n = in.nextInt();
+        int r = 1;
+        int score = 0;
+
+        while (r <= n) {
+            int att = 1;
+            boolean won = false; 
+            int randnum = random.nextInt(100) + 1; 
+
+            while (att <= 3) {
+                System.out.println("Round " + r + ", Attempt " + att + ": Guess a number between 1 to 100: ");
+                int guessnum = in.nextInt();
+                int diff = randnum - guessnum;
+
+                if (diff == 0) {
+                    System.out.println("You win!!");
+                    won = true;
+                    score++;
+                    break;
+                } else if (diff > 0) {
+                    System.out.println("The guess number is too low!");
+                } else {
+                    System.out.println("The guess number is too high!");
+                }
+
+                att++;
+            }
+
+            if (!won) {
+                System.out.println("You lost this round. The correct number was " + randnum);
+            }
+
+            System.out.print("Do you wish to continue to the next round? Press 0 to exit / 1 to continue: ");
+            int ch = in.nextInt();
+
+            if (ch == 0) {
+                System.out.println("Total score: " + score);
+                System.exit(0);
+            } else if (ch == 1) {
+                r++;
+            }
+        }
+        System.out.println("Total score: " + score);
+    }
+}
