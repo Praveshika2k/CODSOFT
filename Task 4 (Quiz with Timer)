@@ -1,0 +1,106 @@
+import java.util.*;
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+        int score = 0;
+        Scanner in = new Scanner(System.in);
+        System.out.println("======QUIZ ON JAVA=======");
+        System.out.println("(Please note that the quiz contains 5 questions and you have 10 secondsto answer each question)");
+        System.out.println();
+        System.out.println("1.Which statement is true about Java?");
+        System.out.println("(a) Java is a sequence-dependent programming language");
+        System.out.println("(b) Java is a code dependent programming language");
+        System.out.println("(c) Java is a platform-dependent programming language");
+        System.out.println("(d) Java is a platform-independent programming language");
+        System.out.print("Enter the right option:");
+        if (getAnswerWithTimer(in, 'd')) {
+            score += 1;
+        }
+
+        System.out.println();
+
+        System.out.println("2.Which component is used to compile, debug and execute the java programs?");
+        System.out.println("(a) JRE");
+        System.out.println("(b) JIT");
+        System.out.println("(c) JDK");
+        System.out.println("(d) JVM");
+        System.out.print("Enter the right option:");
+        if (getAnswerWithTimer(in, 'c')) {
+            score += 1;
+        }
+
+        System.out.println();
+
+        System.out.println("3.Which one of the following is not a Java feature?");
+        System.out.println("(a) Object Oriented");
+        System.out.println("(b) Use of pointers");
+        System.out.println("(c) Portable");
+        System.out.println("(d) Dynamic and Extensible");
+        System.out.print("Enter the right option:");
+        if (getAnswerWithTimer(in, 'b')) {
+            score += 1;
+        }
+
+        System.out.println();
+
+        System.out.println("4.Which of these cannot be used for a variable name in Java?");
+        System.out.println("(a) identifier & keyword");
+        System.out.println("(b) identifier");
+        System.out.println("(c) keyword");
+        System.out.println("(d) none of the mentioned");
+        System.out.print("Enter the right option:");
+        if (getAnswerWithTimer(in, 'c')) {
+            score += 1;
+        }
+
+        System.out.println();
+        
+        System.out.println("5.What is the extension of java code files?");
+        System.out.println("(a) .js");
+        System.out.println("(b) .txt");
+        System.out.println("(c) .class");
+        System.out.println("(d) .java");
+        System.out.print("Enter the right option:");
+        if (getAnswerWithTimer(in, 'd')) {
+            score += 1;
+        }
+
+        System.out.println("Your total score: " + score + " out of 5");
+    }
+
+    private static boolean getAnswerWithTimer(Scanner in, char correctAnswer) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<Character> future = executor.submit(() -> {
+            return in.next().charAt(0);
+        });
+
+        try {
+            for (int i = 10; i >= 0; i--) {
+                if (future.isDone()) {
+                    char ans = future.get();
+                    if (ans == correctAnswer) {
+                        System.out.println("Correct!");
+                        executor.shutdownNow();
+                        return true;
+                    } else {
+                        System.out.println("Wrong! Right answer: Option " + correctAnswer);
+                        executor.shutdownNow();
+                        return false;
+                    }
+                }
+                System.out.print("\rTime remaining: " + i + " seconds");
+                Thread.sleep(1000);
+            }
+            System.out.println("\nTime's up! Moving to next question...");
+            future.cancel(true);
+        } catch (InterruptedException | ExecutionException | CancellationException e) {
+            e.printStackTrace();
+        }
+        finally {
+            executor.shutdownNow();
+        }
+        System.out.println("Wrong! Right answer: Option " + correctAnswer);
+        return false;
+    }
+}
